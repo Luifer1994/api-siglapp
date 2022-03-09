@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::controller(UserController::class)->group(function () {
-        /*  Route::post('user-store', 'store'); */
+        Route::post('user-store', 'store');
         Route::get('/validate-sesion',  'validateSesion');
         Route::get('/users-list{limit?}',  'index');
         Route::get('user-logout', 'logout');

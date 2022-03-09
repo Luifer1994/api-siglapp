@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,9 +77,28 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request)
     {
-        //
+        $newUser = new User();
+        $newUser->type_document_id      = $request->type_document;
+        $newUser->type_user_id          = $request->type_user;
+        $newUser->document              = $request->document;
+        $newUser->center_operation_id   = $request->center_op;
+        $newUser->sellar_id             = $request->seller;
+        $newUser->name                  = $request->name;
+        $newUser->email                 = $request->email;
+        $newUser->password              = Hash::make($request->document);
+        if ($newUser->save()) {
+            return response()->json([
+                'res' => true,
+                'message' => 'Registro exitoso'
+            ], 200);
+        } else {
+            return response()->json([
+                'res' => false,
+                'message' => 'Eror al guardar el registro'
+            ], 400);
+        }
     }
 
     /**
